@@ -1,17 +1,27 @@
 import React, { Component } from "react";
 import Cardlist from "./component/card-list";
-import { Robots } from "./robots";
 import SearchBox from "./component/search-box";
+import Scroll from "./component/scoll";
 
-
-
+//render sequence : constructor --> render --> componentdidmount --> rerender
 class App extends Component{
+    //starting state
     constructor() {
         super();
         this.state = {
-            robots: Robots,
+            robots: [],
             searchfrield: '',
         }
+    }
+
+    componentDidMount() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response=> {
+            return response.json();
+        })
+        .then(users => {
+            this.setState({ robots : users})
+        })
     }
 
     onSearchChange = (event) => {
@@ -21,16 +31,18 @@ class App extends Component{
     }
 //filteredRobots can be used as props instead of this state robots
     render() {
-        const filteredRobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchfrield.toLowerCase());
+        const {robots, searchfrield} = this.state;
+        const filteredRobots = robots.filter(robot => {
+            return robot.name.toLowerCase().includes(searchfrield.toLowerCase());
         });
 
         return(
             <div className="tc">
               <h1>RoboFriends</h1>
-
               <SearchBox searchChange={this.onSearchChange} />
-              <Cardlist Robots={filteredRobots}/> 
+              <Scroll> 
+               <Cardlist Robots={filteredRobots}/> 
+              </Scroll>
              </div>
         )
 

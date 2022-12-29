@@ -5,7 +5,7 @@ const SearchBox = ({searchfield, searchChange}) => {
           <input 
           className="pa3 ba b--green bg-lightest-blue"
           type='text' placeholder="search" 
-          onChange={searchChange} // the same as DOM events we defined the function and then every time the event happens we call it 
+          onChange={searchChange} // the same as DOM events we defined the function and then every time the event happens we call it
           /> 
         </div>
     )
